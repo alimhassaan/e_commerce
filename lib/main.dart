@@ -30,6 +30,14 @@ class MyApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(2.0),
             borderSide: const BorderSide(color: Colors.grey, width: 2.0),
           ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(2.0),
+            borderSide: const BorderSide(color: Colors.red, width: 2.0),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(2.0),
+            borderSide: const BorderSide(color: Colors.red, width: 2.0),
+          ),
         ),
       ),
       onGenerateRoute: generateRoute,

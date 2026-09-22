@@ -17,6 +17,18 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  bool _isPasswordVisible = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,19 +59,38 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _emailController,
                     labelText: 'Email',
                     hintText: 'Enter your Email',
-                    validator: (value) => value == null || value.trim().isEmpty
-                        ? 'Please enter your email'
+                    validator: (value) => value.isNullOrEmpty()
+                        ? 'Please Enter your Email'
                         : null,
+                    focusNode: _emailFocusNode,
+                    onEditingComplete: () =>
+                        FocusScope.of(context).requestFocus(_passwordFocusNode),
+                    textInputAction: TextInputAction.next,
                   ),
                   const Gap(16),
                   CustomTextField(
                     controller: _passwordController,
                     labelText: 'Password',
                     hintText: 'Enter your password',
-                    obscureText: true,
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'Please enter your password'
+                    obscureText: _isPasswordVisible,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
+                    validator: (value) => value.isNullOrEmpty()
+                        ? 'Please Enter your password'
                         : null,
+                    focusNode: _passwordFocusNode,
+                    onEditingComplete: () => _passwordFocusNode.unfocus(),
+                    textInputAction: TextInputAction.done,
                   ),
                   const Gap(32),
                   Align(
@@ -70,7 +101,14 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const Gap(32),
-                  MainButtom(text: 'Login', onPressed: () {}),
+                  MainButtom(
+                    text: 'Login',
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        context.pushReplacementNamed(AppRoutes.bottomNavBar);
+                      }
+                    },
+                  ),
                   const Gap(20),
                   Align(
                     alignment: Alignment.center,
@@ -93,11 +131,11 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       onTap: () {
-                        context.pushNamed(AppRoutes.signupPageRoute);
+                        context.pushReplacementNamed(AppRoutes.signupPageRoute);
                       },
                     ),
                   ),
-                  const Gap(32),
+                  const Gap(50),
                   Align(
                     alignment: Alignment.center,
                     child: Text(
