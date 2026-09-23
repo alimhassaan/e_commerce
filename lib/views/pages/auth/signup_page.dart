@@ -1,4 +1,4 @@
-import 'package:e_commerce/helper/context_extension.dart';
+import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
 import 'package:e_commerce/views/widgets/custom_text_field.dart';
 import 'package:e_commerce/views/widgets/login_with.dart';
@@ -6,17 +6,29 @@ import 'package:e_commerce/views/widgets/main_buttom.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class SignupPage extends StatefulWidget {
+  const SignupPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<SignupPage> createState() => _SignupPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignupPageState extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+  bool _isPasswordVisible = false;
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,14 +44,14 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   const Gap(30),
                   Text(
-                    'Login',
+                    'Sign Up',
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const Gap(8),
                   Text(
-                    'Welcome back! Please login to your account',
+                    'Create a new account',
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   const Gap(100),
@@ -47,19 +59,38 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _emailController,
                     labelText: 'Email',
                     hintText: 'Enter your Email',
-                    validator: (value) => value == null || value.trim().isEmpty
-                        ? 'Please enter your email'
+                    validator: (value) => value.isNullOrEmpty()
+                        ? 'Please Enter your Email'
                         : null,
+                    focusNode: _emailFocusNode,
+                    onEditingComplete: () =>
+                        FocusScope.of(context).requestFocus(_passwordFocusNode),
+                    textInputAction: TextInputAction.next,
                   ),
                   const Gap(16),
                   CustomTextField(
                     controller: _passwordController,
                     labelText: 'Password',
                     hintText: 'Enter your password',
-                    obscureText: true,
-                    validator: (value) => value == null || value.isEmpty
-                        ? 'Please enter your password'
+                    obscureText: _isPasswordVisible,
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
+                      },
+                    ),
+                    validator: (value) => value.isNullOrEmpty()
+                        ? 'Please Enter your password'
                         : null,
+                    focusNode: _passwordFocusNode,
+                    onEditingComplete: () => FocusScope.of(context).unfocus(),
+                    textInputAction: TextInputAction.done,
                   ),
                   const Gap(32),
                   Align(
@@ -70,20 +101,23 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                   const Gap(32),
-                  MainButtom(text: 'Login', onPressed: () {}),
+                  MainButtom(
+                    text: 'Sign Up',
+                    onPressed: () {
+                      context.pushReplacementNamed(AppRoutes.bottomNavBar);
+                    },
+                  ),
                   const Gap(20),
                   Align(
                     alignment: Alignment.center,
                     child: InkWell(
                       child: RichText(
                         text: const TextSpan(
-                          style: TextStyle(
-                            color: Colors.black,
-                          ), // اللون الأساسي للنص
+                          style: TextStyle(color: Colors.black),
                           children: [
-                            TextSpan(text: "Don't have an account? "),
+                            TextSpan(text: "Already have an account? "),
                             TextSpan(
-                              text: 'Sign Up',
+                              text: 'Login',
                               style: TextStyle(
                                 color: Colors.red,
                                 fontWeight: FontWeight.bold,
@@ -93,15 +127,16 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       onTap: () {
-                        context.pushNamed(AppRoutes.signupPageRoute);
+                        context.pushReplacementNamed(AppRoutes.loginPageRoute);
                       },
                     ),
                   ),
-                  const Gap(32),
+                  const Gap(50),
+
                   Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Or login with',
+                      'Or Sign Up with',
                       style: Theme.of(
                         context,
                       ).textTheme.bodyMedium?.copyWith(color: Colors.black),
