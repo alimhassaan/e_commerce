@@ -63,14 +63,23 @@ class HomeListItem extends StatelessWidget {
           const Gap(3),
           Text.rich(
             TextSpan(
-              text: '${product.price}\$',
-              style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                color: Colors.grey,
-              ),
+              children: [
+                TextSpan(
+                  text: '${product.price}\$',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: Colors.grey,
+                    decoration: TextDecoration.lineThrough,
+                  ),
+                ),
+                TextSpan(
+                  text: ' ${product.price * (product.discountValue) / 100}\$',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleSmall?.copyWith(color: Colors.red),
+                ),
+              ],
             ),
           ),
-
-          
         ],
       ),
     );
