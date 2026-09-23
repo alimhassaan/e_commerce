@@ -1,7 +1,7 @@
 import 'package:e_commerce/utilities/app_routes.dart';
 import 'package:e_commerce/views/pages/bottom_navbar.dart';
-import 'package:e_commerce/views/pages/login_page.dart';
-import 'package:e_commerce/views/pages/signup_page.dart';
+import 'package:e_commerce/views/pages/auth/login_page.dart';
+import 'package:e_commerce/views/pages/auth/signup_page.dart';
 import 'package:flutter/cupertino.dart';
 
 Route<dynamic>? generateRoute(RouteSettings settings) {
