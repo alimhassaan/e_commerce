@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'package:e_commerce/controllers/auth_controller.dart';
-import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
 import 'package:e_commerce/views/widgets/custom_text_field.dart';
