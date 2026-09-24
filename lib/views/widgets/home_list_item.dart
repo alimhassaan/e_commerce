@@ -18,7 +18,7 @@ class HomeListItem extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(12),
                 child: Image.network(
-                  product.imageUrl,
+                  product.imgUrl,
                   width: 200,
                   height: 200,
                   fit: BoxFit.cover,
