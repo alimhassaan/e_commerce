@@ -32,4 +32,12 @@ class AuthController with ChangeNotifier {
     this.password = password ?? this.password;
     notifyListeners();
   }
+
+  Future<void> logout() async {
+    try {
+      await auth.logout();
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
