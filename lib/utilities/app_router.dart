@@ -1,4 +1,5 @@
 import 'package:e_commerce/utilities/app_routes.dart';
+import 'package:e_commerce/views/pages/auth/landing_page.dart';
 import 'package:e_commerce/views/pages/bottom_navbar.dart';
 import 'package:e_commerce/views/pages/auth/login_page.dart';
 import 'package:e_commerce/views/pages/auth/signup_page.dart';
@@ -12,6 +13,8 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
       return CupertinoPageRoute(builder: (_) => const LoginPage());
     case AppRoutes.bottomNavBar:
       return CupertinoPageRoute(builder: (_) => const BottomNavbar());
+    case AppRoutes.landingPageRoute:
+       return CupertinoPageRoute(builder: (_) => const LandingPage());  
 
     default:
       return null;

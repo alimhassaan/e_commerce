@@ -1,7 +1,9 @@
+import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/utilities/app_router.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,36 +17,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'E Commerce App',
-      theme: ThemeData(
-        scaffoldBackgroundColor: const Color(0xFFE5E5E5),
-        primaryColor: Colors.red,
-        inputDecorationTheme: InputDecorationTheme(
-          labelStyle: Theme.of(
-            context,
-          ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(2.0),
-            borderSide: const BorderSide(color: Colors.grey, width: 2.0),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(2.0),
-            borderSide: const BorderSide(color: Colors.grey, width: 2.0),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(2.0),
-            borderSide: const BorderSide(color: Colors.red, width: 2.0),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(2.0),
-            borderSide: const BorderSide(color: Colors.red, width: 2.0),
+    return Provider<AuthBase>(
+      
+      create: (_) =>Auth(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'E Commerce App',
+        theme: ThemeData(
+          scaffoldBackgroundColor: const Color(0xFFE5E5E5),
+          primaryColor: Colors.red,
+          inputDecorationTheme: InputDecorationTheme(
+            labelStyle: Theme.of(
+              context,
+            ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2.0),
+              borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2.0),
+              borderSide: const BorderSide(color: Colors.grey, width: 2.0),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2.0),
+              borderSide: const BorderSide(color: Colors.red, width: 2.0),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(2.0),
+              borderSide: const BorderSide(color: Colors.red, width: 2.0),
+            ),
           ),
         ),
+        onGenerateRoute: generateRoute,
+        initialRoute: AppRoutes.landingPageRoute,
       ),
-      onGenerateRoute: generateRoute,
-      initialRoute: AppRoutes.loginPageRoute,
     );
   }
 }
