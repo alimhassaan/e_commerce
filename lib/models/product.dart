@@ -14,10 +14,14 @@ class Product {
     required this.title,
     required this.imgUrl,
     required this.price,
-    this.discountValue = 100,
+    this.discountValue = 0,
     this.category = 'Other',
     this.rate,
   });
+
+  bool get hasDiscount => discountValue > 0;
+
+  double get discountedPrice => price * (1 - discountValue / 100);
 
   Map<String, dynamic> toMap() {
     return {
@@ -37,7 +41,7 @@ class Product {
       title: map['title'] as String? ?? '',
       price: (map['price'] as num?)?.toInt() ?? 0,
       imgUrl: map['imgUrl'] as String? ?? '',
-      discountValue: (map['discountValue'] as num?)?.toInt() ?? 100,
+      discountValue: (map['discountValue'] as num?)?.toInt() ?? 0,
       category: map['category'] as String? ?? 'Other',
       rate: map['rate'] is num ? (map['rate'] as num).toDouble() : null,
     );

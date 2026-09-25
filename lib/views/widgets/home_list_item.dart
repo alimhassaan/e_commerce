@@ -6,6 +6,12 @@ class HomeListItem extends StatelessWidget {
   final Product product;
   const HomeListItem({super.key, required this.product});
 
+  String _formatPrice(double price) {
+    return price == price.roundToDouble()
+        ? price.toStringAsFixed(0)
+        : price.toStringAsFixed(2);
+  }
+
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
@@ -24,30 +30,30 @@ class HomeListItem extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: 50,
-                  height: 30,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(26),
-                      color: Colors.red,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(6.0),
-                      child: Center(
-                        child: Text(
-                          "${product.discountValue}%",
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleSmall?.copyWith(color: Colors.white),
+              if (product.hasDiscount)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 50,
+                    height: 30,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(26),
+                        color: Colors.red,
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: Center(
+                          child: Text(
+                            "${product.discountValue}%",
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(color: Colors.white),
+                          ),
                         ),
                       ),
                     ),
                   ),
                 ),
-              ),
             ],
           ),
           const Gap(8),
@@ -64,18 +70,20 @@ class HomeListItem extends StatelessWidget {
           Text.rich(
             TextSpan(
               children: [
-                TextSpan(
-                  text: '${product.price}\$',
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                    color: Colors.grey,
-                    decoration: TextDecoration.lineThrough,
+                if (product.hasDiscount)
+                  TextSpan(
+                    text: '${product.price}\$',
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                      color: Colors.grey,
+                      decoration: TextDecoration.lineThrough,
+                    ),
                   ),
-                ),
                 TextSpan(
-                  text: ' ${product.price * (product.discountValue) / 100}\$',
-                  style: Theme.of(
-                    context,
-                  ).textTheme.titleSmall?.copyWith(color: Colors.red),
+                  text:
+                      ' ${_formatPrice(product.hasDiscount ? product.discountedPrice : product.price.toDouble())}\$',
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    color: product.hasDiscount ? Colors.red : Colors.grey,
+                  ),
                 ),
               ],
             ),

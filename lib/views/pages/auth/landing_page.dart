@@ -1,4 +1,5 @@
 import 'package:e_commerce/controllers/auth_controller.dart';
+import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/views/pages/auth/login_page.dart';
 import 'package:e_commerce/views/pages/bottom_navbar.dart';
@@ -23,7 +24,13 @@ class LandingPage extends StatelessWidget {
               child: const LoginPage(),
             );
           }
-          return const BottomNavbar();
+          return ChangeNotifierProvider<AuthController>(
+            
+            create: (_)=>AuthController(auth: auth),
+            child: Provider<Database>(
+              create: (_)=>FirestoreDatabase(user.uid) ,
+            child: const BottomNavbar()),
+            );
         }
         return Scaffold(body: Center(child: CircularProgressIndicator()));
       },
