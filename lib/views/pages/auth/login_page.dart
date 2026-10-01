@@ -101,9 +101,9 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const Gap(32),
-                      MainButtom(
+                      MainButton(
                         text: 'Login',
-                        onPressed: () {
+                        onTap: () {
                           if (_formKey.currentState!.validate()) {
                             _submit(model, context);
                           }

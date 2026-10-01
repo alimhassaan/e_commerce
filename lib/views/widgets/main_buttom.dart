@@ -1,27 +1,38 @@
 import 'package:flutter/material.dart';
 
-class MainButtom extends StatelessWidget {
-  final String text;
-  final VoidCallback onPressed;
-  const MainButtom({super.key, required this.text, required this.onPressed});
+class MainButton extends StatelessWidget {
+  final String? text;
+  final VoidCallback? onTap;
+  final bool hasCircularBorder;
+  final Widget? child;
+
+  MainButton({
+    super.key,
+    this.text,
+    this.onTap,
+    this.hasCircularBorder = false,
+    this.child,
+  }) {
+    assert(text != null || child != null);
+  }
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
+      height: 50,
       child: ElevatedButton(
+        onPressed: onTap,
         style: ElevatedButton.styleFrom(
           backgroundColor: Theme.of(context).primaryColor,
-          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          foregroundColor: Colors.white,
+          shape: hasCircularBorder
+              ? RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(24.0),
+                )
+              : null,
         ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        child: text != null ? Text(text!) : child,
       ),
     );
   }

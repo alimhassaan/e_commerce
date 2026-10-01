@@ -1,4 +1,6 @@
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/utilities/app_routes.dart';
+import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -14,8 +16,9 @@ class HomeListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(),
+    return InkWell(
+      onTap: () =>
+          context.pushNamed(AppRoutes.productDetailsRoute, arguments: product),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

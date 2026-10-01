@@ -1,5 +1,3 @@
-import 'package:e_commerce/utilities/app_assets.dart';
-
 class Product {
   final String id;
   final String title;
@@ -48,60 +46,60 @@ class Product {
   }
 }
 
-List<Product> dummyProducts = [
-  Product(
-    id: '1',
-    title: "T-shirt",
-    imgUrl: AppAssets.tmpProductImage,
-    price: 300,
-    category: 'Clothes',
-    discountValue: 20,
-  ),
-  Product(
-    id: '2',
-    title: "T-shirt",
-    imgUrl: AppAssets.tmpProductImage,
-    price: 300,
-    category: 'Clothes',
-  ),
-  Product(
-    id: '3',
-    title: "T-shirt",
-    imgUrl: AppAssets.tmpProductImage,
-    price: 300,
-    category: 'Clothes',
-    discountValue: 20,
-  ),
-  Product(
-    id: '4',
-    title: "T-shirt",
-    imgUrl: AppAssets.tmpProductImage,
-    price: 300,
-    category: 'Clothes',
-    discountValue: 20,
-  ),
-  Product(
-    id: '5',
-    title: "T-shirt",
-    imgUrl: AppAssets.tmpProductImage,
-    price: 300,
-    category: 'Clothes',
-    discountValue: 20,
-  ),
-  Product(
-    id: '6',
-    title: "T-shirt",
-    imgUrl: AppAssets.tmpProductImage,
-    price: 300,
-    category: 'Clothes',
-    discountValue: 20,
-  ),
-  Product(
-    id: '7',
-    title: "T-shirt",
-    imgUrl: AppAssets.tmpProductImage,
-    price: 300,
-    category: 'Clothes',
-    discountValue: 20,
-  ),
-];
+// List<Product> dummyProducts = [
+//   Product(
+//     id: '1',
+//     title: "T-shirt",
+//     imgUrl: AppAssets.tmpProductImage,
+//     price: 300,
+//     category: 'Clothes',
+//     discountValue: 20,
+//   ),
+//   Product(
+//     id: '2',
+//     title: "T-shirt",
+//     imgUrl: AppAssets.tmpProductImage,
+//     price: 300,
+//     category: 'Clothes',
+//   ),
+//   Product(
+//     id: '3',
+//     title: "T-shirt",
+//     imgUrl: AppAssets.tmpProductImage,
+//     price: 300,
+//     category: 'Clothes',
+//     discountValue: 20,
+//   ),
+//   Product(
+//     id: '4',
+//     title: "T-shirt",
+//     imgUrl: AppAssets.tmpProductImage,
+//     price: 300,
+//     category: 'Clothes',
+//     discountValue: 20,
+//   ),
+//   Product(
+//     id: '5',
+//     title: "T-shirt",
+//     imgUrl: AppAssets.tmpProductImage,
+//     price: 300,
+//     category: 'Clothes',
+//     discountValue: 20,
+//   ),
+//   Product(
+//     id: '6',
+//     title: "T-shirt",
+//     imgUrl: AppAssets.tmpProductImage,
+//     price: 300,
+//     category: 'Clothes',
+//     discountValue: 20,
+//   ),
+//   Product(
+//     id: '7',
+//     title: "T-shirt",
+//     imgUrl: AppAssets.tmpProductImage,
+//     price: 300,
+//     category: 'Clothes',
+//     discountValue: 20,
+//   ),
+// ];

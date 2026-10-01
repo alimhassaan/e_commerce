@@ -107,11 +107,11 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                         ),
                         const Gap(32),
-                        MainButtom(
+                        MainButton(
                           text: 'Sign Up',
-                          onPressed: () {
+                          onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              _submit(model,context);
+                              _submit(model, context);
                             }
                           },
                         ),
