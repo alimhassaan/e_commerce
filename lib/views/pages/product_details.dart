@@ -1,4 +1,5 @@
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/views/widgets/drop_down_menu.dart';
 import 'package:e_commerce/views/widgets/main_buttom.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -13,13 +14,16 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   bool isFavorite = false;
+  String? selectedSize;
+  String? selectedColor;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.withValues(alpha: 0.01),
       appBar: AppBar(
         title: Text(widget.product.title),
-        actions: [IconButton(onPressed: () {}, icon: Icon(Icons.share))],
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.share))],
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -30,35 +34,60 @@ class _ProductDetailsState extends State<ProductDetails> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: () {
-                        setState(() {
-                          isFavorite = !isFavorite;
-                        });
-                      },
-                      child: SizedBox(
-                        height: 50,
-                        width: 50,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.white,
-                          ),
-
-                          child: Padding(
-                            padding: EdgeInsets.all(8),
-                            child: Icon(
-                              isFavorite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border_outlined,
-                              color: Colors.red,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      DropDownMenu(
+                        hint: 'Select Size',
+                        values: ['S', 'M', 'L', 'XL', 'XXL'],
+                        initialValue: selectedSize,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedSize = value;
+                          });
+                        },
+                      ),
+                      const Gap(2),
+                      DropDownMenu(
+                        hint: 'Select Color',
+                        values: ['Red', 'Blue', 'Green', 'Yellow'],
+                        initialValue: selectedColor,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedColor = value;
+                          });
+                        },
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () {
+                            setState(() {
+                              isFavorite = !isFavorite;
+                            });
+                          },
+                          child: SizedBox(
+                            height: 50,
+                            width: 50,
+                            child: DecoratedBox(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Icon(
+                                  isFavorite
+                                      ? Icons.favorite
+                                      : Icons.favorite_border_outlined,
+                                  color: Colors.red,
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                   const Gap(16),
                   Row(
