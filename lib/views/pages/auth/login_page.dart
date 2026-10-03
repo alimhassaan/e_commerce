@@ -5,6 +5,7 @@ import 'package:e_commerce/utilities/app_routes.dart';
 import 'package:e_commerce/views/widgets/custom_text_field.dart';
 import 'package:e_commerce/views/widgets/login_with.dart';
 import 'package:e_commerce/views/widgets/main_buttom.dart';
+import 'package:e_commerce/views/widgets/main_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -174,21 +175,12 @@ Future<void> _submit(AuthController model, BuildContext context) async {
 
     context.pushNamed(AppRoutes.bottomNavBar);
   } catch (e) {
-    showDialog(
+   
+    
+    MainDialog.showCustomDialog(
       context: context,
-      builder: (_) => AlertDialog(
-        title: Text(
-          'Error!',
-          style: Theme.of(context).textTheme.headlineMedium,
-        ),
-        content: Text(
-          e.toString(),
-          style: Theme.of(context).textTheme.titleMedium,
-        ),
-        actions: [
-          TextButton(onPressed: () => context.pop(), child: Text('Ok')),
-        ],
-      ),
+      error: e,
+      title: 'Error!',
     );
   }
 }
