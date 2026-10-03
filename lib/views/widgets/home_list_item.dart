@@ -1,8 +1,10 @@
+import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/product.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
 import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class HomeListItem extends StatelessWidget {
   final Product product;
@@ -16,9 +18,13 @@ class HomeListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final database=Provider.of<Database>(context, listen: false);
     return InkWell(
       onTap: () =>
-          context.pushNamed(AppRoutes.productDetailsRoute, arguments: product),
+          context.pushNamed(AppRoutes.productDetailsRoute, arguments: {
+            'product': product,
+            'database': database,
+          }),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

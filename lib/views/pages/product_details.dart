@@ -1,8 +1,13 @@
+import 'package:e_commerce/controllers/database_controller.dart';
+import 'package:e_commerce/models/add_to_cart_model.dart';
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/utilities/constans.dart';
 import 'package:e_commerce/views/widgets/drop_down_menu.dart';
 import 'package:e_commerce/views/widgets/main_buttom.dart';
+import 'package:e_commerce/views/widgets/main_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
   final Product product;
@@ -16,6 +21,31 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isFavorite = false;
   String? selectedSize;
   String? selectedColor;
+
+  Future<void> addToCart() async {
+    final database = Provider.of<Database>(context,listen: false);
+    try {
+      await database.addToCart(
+        AddToCartModel(
+          id: documentIdFromLocalDatabase(), // You can implement a function to generate a unique ID for the cart item
+          title: widget.product.title,
+          imgUrl: widget.product.imgUrl,
+          price: widget.product.price,
+          discountValue: widget.product.discountValue,
+          category: widget.product.category,
+          quantity: 1, // You can change this to the desired quantity
+          size: selectedSize ?? '', // Use the selected size or an empty string
+          color: selectedColor ?? 'Black',
+          productId: widget.product.id, // Use the product ID as the product ID
+        ),
+      );
+    } catch (e) {
+      if(!mounted) {
+        return;
+      }
+      MainDialog.showCustomDialog(context: context, error: e, title: 'Error!');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,7 +143,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   const Gap(10),
                   MainButton(
                     text: 'Add To Cart',
-                    onTap: () {},
+                    onTap: addToCart,
                     hasCircularBorder: true,
                   ),
                   const Gap(32),
