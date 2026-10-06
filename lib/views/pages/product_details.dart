@@ -34,8 +34,8 @@ class _ProductDetailsState extends State<ProductDetails> {
           discountValue: widget.product.discountValue,
           category: widget.product.category,
           quantity: 1, // You can change this to the desired quantity
-          size: selectedSize ?? '', // Use the selected size or an empty string
-          color: selectedColor ?? 'Black',
+          size: selectedSize ?? '',
+          color: selectedColor ?? '',
           productId: widget.product.id, // Use the product ID as the product ID
         ),
       );
@@ -73,7 +73,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         initialValue: selectedSize,
                         onChanged: (value) {
                           setState(() {
-                            selectedSize = value;
+                            selectedSize = value ?? '';
                           });
                         },
                       ),
@@ -84,7 +84,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         initialValue: selectedColor,
                         onChanged: (value) {
                           setState(() {
-                            selectedColor = value;
+                            selectedColor = value ?? '';
                           });
                         },
                       ),
