@@ -1,3 +1,4 @@
+import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:flutter/material.dart';
 
 class DropDownMenu extends StatefulWidget {
@@ -21,17 +22,25 @@ class DropDownMenu extends StatefulWidget {
 class _DropDownMenuState extends State<DropDownMenu> {
   String? selectedValue;
 
+  String? _normalizeInitialValue(String? value) {
+    if (value.isNullOrEmpty()) {
+      return null;
+    }
+
+    return widget.values.contains(value) ? value : null;
+  }
+
   @override
   void initState() {
     super.initState();
-    selectedValue = widget.initialValue;
+    selectedValue = _normalizeInitialValue(widget.initialValue);
   }
 
   @override
   void didUpdateWidget(covariant DropDownMenu oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.initialValue != widget.initialValue) {
-      selectedValue = widget.initialValue;
+      selectedValue = _normalizeInitialValue(widget.initialValue);
     }
   }
 

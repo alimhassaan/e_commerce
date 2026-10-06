@@ -19,7 +19,7 @@ class AddToCartModel {
     required this.category,
     this.quantity = 1,
     required this.size,
-    this.color = 'Black',
+    required this.color,
   });
 
   Map<String, dynamic> toMap() {
@@ -37,7 +37,7 @@ class AddToCartModel {
     };
   }
 
-  factory AddToCartModel.fromMap(Map<String, dynamic> map,String documentId) {
+  factory AddToCartModel.fromMap(Map<String, dynamic> map, String documentId) {
     return AddToCartModel(
       id: documentId,
       productId: map['productId'] as String? ?? '',
@@ -47,9 +47,8 @@ class AddToCartModel {
       discountValue: (map['discountValue'] as num?)?.toInt() ?? 0,
       category: map['category'] as String? ?? 'Other',
       quantity: (map['quantity'] as num?)?.toInt() ?? 1,
-      size: map['size'] as String? ?? '',
-      color: map['color'] as String? ?? 'Black',
+      size: map['size'] as String,
+      color: map['color'] as String,
     );
   }
-
 }
