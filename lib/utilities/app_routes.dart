@@ -4,4 +4,5 @@ class AppRoutes {
   static const String signupPageRoute = '/signup';
   static const String bottomNavBar = '/navbar';
   static const String productDetailsRoute = '/product-details';
+  static const String checkoutPageRoute = '/checkout';
 }

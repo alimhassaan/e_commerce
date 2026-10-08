@@ -8,9 +8,10 @@ class CartListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SizedBox(
+    return SizedBox(
       height: 150,
       child: Card(
+        color: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.0),
         ),
@@ -93,11 +94,10 @@ class CartListItem extends StatelessWidget {
                   const Icon(Icons.more_vert),
                   Text(
                     '${cartItem.price}\$',
-                    style: Theme.of(context).textTheme.bodyLarge
-                        ?.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                        ),
+                    style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
