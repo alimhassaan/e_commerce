@@ -1,6 +1,5 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/delivery_method.dart';
-import 'package:e_commerce/utilities/app_assets.dart';
 import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:e_commerce/views/widgets/checkout/checkout_order_details.dart';
 import 'package:e_commerce/views/widgets/checkout/delivery_method_item.dart';
