@@ -5,6 +5,7 @@ import 'package:e_commerce/views/pages/auth/landing_page.dart';
 import 'package:e_commerce/views/pages/bottom_navbar.dart';
 import 'package:e_commerce/views/pages/auth/login_page.dart';
 import 'package:e_commerce/views/pages/auth/signup_page.dart';
+import 'package:e_commerce/views/pages/checkout/add_shippiing_address_page.dart';
 import 'package:e_commerce/views/pages/checkout/checkout_page.dart';
 import 'package:e_commerce/views/pages/product_details.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,12 +18,31 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
     case AppRoutes.loginPageRoute:
       return CupertinoPageRoute(builder: (_) => const LoginPage());
     case AppRoutes.bottomNavBar:
-      return CupertinoPageRoute(builder: (_) => const BottomNavbar());
+      final database = settings.arguments as Database;
+      return CupertinoPageRoute(
+        builder: (_) => Provider<Database>.value(
+          value: database,
+          child: const BottomNavbar(),
+        ),
+      );
     case AppRoutes.landingPageRoute:
       return CupertinoPageRoute(builder: (_) => const LandingPage());
+    case AppRoutes.addShippiingAddressRoute:
+      final database = settings.arguments as Database;
+      return CupertinoPageRoute(
+        builder: (_) => Provider<Database>.value(
+          value: database,
+          child: const AddShippiingAddressPage(),
+        ),
+      );
     case AppRoutes.checkoutPageRoute:
       final database = settings.arguments as Database;
-      return CupertinoPageRoute(builder: (_) => Provider<Database>.value(value: database ,child: const CheckoutPage()));  
+      return CupertinoPageRoute(
+        builder: (_) => Provider<Database>.value(
+          value: database,
+          child: const CheckoutPage(),
+        ),
+      );
     case AppRoutes.productDetailsRoute:
       return CupertinoPageRoute(
         builder: (_) {

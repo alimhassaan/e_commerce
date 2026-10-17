@@ -179,8 +179,10 @@ Future<void> _submit(AuthController model, BuildContext context) async {
   try {
     await model.submitSignup();
 
+    if (!context.mounted) return;
     context.pushNamed(AppRoutes.bottomNavBar);
   } catch (e) {
+    if (!context.mounted) return;
     MainDialog.showCustomDialog(
       context: context,
       error: e,

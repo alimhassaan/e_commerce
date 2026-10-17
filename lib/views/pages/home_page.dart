@@ -32,7 +32,7 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 300,
                   child: StreamBuilder<List<Product>>(
-                    stream: database.salesProductsSteam(),
+                    stream: database.salesProductsStream(),
 
                     builder: (context, asyncSnapshot) {
                       if (asyncSnapshot.connectionState ==
@@ -46,14 +46,10 @@ class HomePage extends StatelessWidget {
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: products?.length,
-                          itemBuilder: (_,index)=>
-                              
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: HomeListItem(product: products![index]),
-                                
-                              )
-                              
+                          itemBuilder: (_, index) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: HomeListItem(product: products![index]),
+                          ),
                         );
                       }
                       return const Center(child: CircularProgressIndicator());
@@ -70,25 +66,23 @@ class HomePage extends StatelessWidget {
                 SizedBox(
                   height: 300,
                   child: StreamBuilder<List<Product>>(
-                    stream: database.newProductsSteam(),
+                    stream: database.newProductsStream(),
                     builder: (context, asyncSnapshot) {
                       if (asyncSnapshot.connectionState ==
                           ConnectionState.active) {
                         final products = asyncSnapshot.data;
                         if (products.isNullOrEmpty()) {
-                          return const Center(child: Text('No Data Available!'),);
+                          return const Center(
+                            child: Text('No Data Available!'),
+                          );
                         }
                         return ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: products?.length,
-                          itemBuilder: (_,index)=>
-                              
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: HomeListItem(product: products![index]),
-                                ),
-                              
-                             
+                          itemBuilder: (_, index) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: HomeListItem(product: products![index]),
+                          ),
                         );
                       }
                       return const Center(child: CircularProgressIndicator());
