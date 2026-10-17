@@ -68,7 +68,10 @@ class CheckoutPage extends StatelessWidget {
                         ),
                       );
                     }
-                    return ShippingAddressComponent();
+                    final shippingAddress = shippingAddresses?.first;
+                    return ShippingAddressComponent(
+                      shippingAddress: shippingAddress!,
+                    );
                   }
                   return const Center(
                     child: CircularProgressIndicator.adaptive(),
