@@ -18,7 +18,13 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
     case AppRoutes.loginPageRoute:
       return CupertinoPageRoute(builder: (_) => const LoginPage());
     case AppRoutes.bottomNavBar:
-      return CupertinoPageRoute(builder: (_) => const BottomNavbar());
+      final database = settings.arguments as Database;
+      return CupertinoPageRoute(
+        builder: (_) => Provider<Database>.value(
+          value: database,
+          child: const BottomNavbar(),
+        ),
+      );
     case AppRoutes.landingPageRoute:
       return CupertinoPageRoute(builder: (_) => const LandingPage());
     case AppRoutes.addShippiingAddressRoute:

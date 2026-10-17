@@ -40,7 +40,10 @@ class _ProductDetailsState extends State<ProductDetails> {
         ),
       );
     } catch (e) {
-      if(!mounted) {
+      if (!mounted) {
+        return;
+      }
+      if (!context.mounted) {
         return;
       }
       MainDialog.showCustomDialog(context: context, error: e, title: 'Error!');

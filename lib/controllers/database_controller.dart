@@ -7,13 +7,14 @@ import 'package:e_commerce/services/firestore_services.dart';
 import 'package:e_commerce/utilities/api_path.dart';
 
 abstract class Database {
-  Stream<List<Product>> salesProductsSteam();
-  Stream<List<Product>> newProductsSteam();
+  Stream<List<Product>> salesProductsStream();
+  Stream<List<Product>> newProductsStream();
   Stream<List<AddToCartModel>> myProductsCart();
   Stream<List<DeliveryMethod>> deliveryMethodsStream();
   Future<void> setUserData(UserData userData);
   Future<void> addToCart(AddToCartModel product);
   Stream<List<ShippingAddress>> getShippingAddresses();
+  Future<void> saveAddress(ShippingAddress address);
 }
 
 class FirestoreDatabase implements Database {
@@ -22,14 +23,14 @@ class FirestoreDatabase implements Database {
   FirestoreDatabase(this.uid);
 
   @override
-  Stream<List<Product>> salesProductsSteam() => _service.collectionsStream(
+  Stream<List<Product>> salesProductsStream() => _service.collectionsStream(
     path: ApiPath.product(),
     builder: (data, documentId) => Product.fromMap(data!, documentId),
     queryBuilder: (query) => query.where('discountValue', isNotEqualTo: 0),
   );
 
   @override
-  Stream<List<Product>> newProductsSteam() => _service.collectionsStream(
+  Stream<List<Product>> newProductsStream() => _service.collectionsStream(
     path: ApiPath.product(),
     builder: (data, documentId) => Product.fromMap(data!, documentId),
   );
@@ -65,4 +66,8 @@ class FirestoreDatabase implements Database {
         builder: (data, documentId) =>
             ShippingAddress.fromMap(data!, documentId),
       );
+
+  @override
+  Future<void> saveAddress(ShippingAddress address) =>
+      _service.setData(path: ApiPath.newAddress(uid,address.id), data: address.toMap());
 }
