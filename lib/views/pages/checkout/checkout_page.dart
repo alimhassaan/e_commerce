@@ -1,5 +1,7 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/delivery_method.dart';
+import 'package:e_commerce/models/shipping_address.dart';
+import 'package:e_commerce/utilities/app_routes.dart';
 import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:e_commerce/views/widgets/checkout/checkout_order_details.dart';
 import 'package:e_commerce/views/widgets/checkout/delivery_method_item.dart';
@@ -39,7 +41,40 @@ class CheckoutPage extends StatelessWidget {
                 ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const Gap(10),
-              ShippingAddressComponent(),
+              StreamBuilder<List<ShippingAddress>>(
+                stream: database.getShippingAddresses(),
+                builder: (context, asyncSnapshot) {
+                  if (asyncSnapshot.connectionState == ConnectionState.active) {
+                    final shippingAddresses = asyncSnapshot.data;
+                    if (shippingAddresses.isNullOrEmpty()) {
+                      return Center(
+                        child: Column(
+                          children: [
+                            const Text('No Shipping Address!'),
+                            const Gap(6),
+                            InkWell(
+                              onTap: () => context.pushNamed(
+                                AppRoutes.addShippiingAddressRoute,
+                                arguments: database,
+                              ),
+
+                              child: Text(
+                                'Add new shipping address',
+                                style: Theme.of(context).textTheme.bodySmall
+                                    ?.copyWith(color: Colors.redAccent),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return ShippingAddressComponent();
+                  }
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                },
+              ),
               const Gap(30),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
