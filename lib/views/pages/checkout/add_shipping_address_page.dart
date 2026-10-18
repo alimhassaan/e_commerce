@@ -9,15 +9,14 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
-class AddShippiingAddressPage extends StatefulWidget {
-  const AddShippiingAddressPage({super.key});
+class AddShippingAddressPage extends StatefulWidget {
+  const AddShippingAddressPage({super.key});
 
   @override
-  State<AddShippiingAddressPage> createState() =>
-      _AddShippiingAddressPageState();
+  State<AddShippingAddressPage> createState() => _AddShippingAddressPageState();
 }
 
-class _AddShippiingAddressPageState extends State<AddShippiingAddressPage> {
+class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
 
