@@ -54,7 +54,7 @@ class CheckoutPage extends StatelessWidget {
                             const Gap(6),
                             InkWell(
                               onTap: () => context.pushNamed(
-                                AppRoutes.addShippiingAddressRoute,
+                                AppRoutes.addShippingAddressRoute,
                                 arguments: database,
                               ),
 

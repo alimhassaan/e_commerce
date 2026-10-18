@@ -7,6 +7,7 @@ import 'package:e_commerce/views/pages/auth/login_page.dart';
 import 'package:e_commerce/views/pages/auth/signup_page.dart';
 import 'package:e_commerce/views/pages/checkout/add_shipping_address_page.dart';
 import 'package:e_commerce/views/pages/checkout/checkout_page.dart';
+import 'package:e_commerce/views/pages/checkout/shipping_address_page.dart';
 import 'package:e_commerce/views/pages/product_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -27,12 +28,20 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
       );
     case AppRoutes.landingPageRoute:
       return CupertinoPageRoute(builder: (_) => const LandingPage());
-    case AppRoutes.addShippiingAddressRoute:
+    case AppRoutes.addShippingAddressRoute:
       final database = settings.arguments as Database;
       return CupertinoPageRoute(
         builder: (_) => Provider<Database>.value(
           value: database,
           child: const AddShippingAddressPage(),
+        ),
+      );
+    case AppRoutes.shippingAddressRoute:
+      final database = settings.arguments as Database;
+      return CupertinoPageRoute(
+        builder: (_) => Provider<Database>.value(
+          value: database,
+          child: const ShippingAddressPage(),
         ),
       );
     case AppRoutes.checkoutPageRoute:

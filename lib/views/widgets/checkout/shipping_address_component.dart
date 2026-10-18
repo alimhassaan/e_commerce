@@ -1,6 +1,10 @@
+import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/shipping_address.dart';
+import 'package:e_commerce/utilities/app_routes.dart';
+import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 
 class ShippingAddressComponent extends StatelessWidget {
   final ShippingAddress shippingAddress;
@@ -8,6 +12,7 @@ class ShippingAddressComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final database = Provider.of<Database>(context);
     return Card(
       color: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
@@ -26,7 +31,10 @@ class ShippingAddressComponent extends StatelessWidget {
                   ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () => context.pushNamed(
+                    AppRoutes.shippingAddressRoute,
+                    arguments: database,
+                  ),
                   child: const Text(
                     'Change',
                     style: TextStyle(color: Colors.redAccent),
