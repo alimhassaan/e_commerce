@@ -20,6 +20,7 @@ class CheckoutPage extends StatelessWidget {
     final database = Provider.of<Database>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           'Checkout',
           style: Theme.of(

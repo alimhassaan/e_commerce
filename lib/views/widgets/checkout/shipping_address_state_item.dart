@@ -20,7 +20,7 @@ class _ShippingAddressStateItemState extends State<ShippingAddressStateItem> {
   late bool checkValue;
   @override
   void initState() {
-    checkValue = false;
+    checkValue = widget.shippingAddress.isDefault;
     super.initState();
   }
 
@@ -47,8 +47,10 @@ class _ShippingAddressStateItemState extends State<ShippingAddressStateItem> {
                 InkWell(
                   onTap: () => context.pushNamed(
                     AppRoutes.addShippingAddressRoute,
-                    arguments: AddShippingAddressArgs(database: database,shippingAddress: widget.shippingAddress,
-                    )
+                    arguments: AddShippingAddressArgs(
+                      database: database,
+                      shippingAddress: widget.shippingAddress,
+                    ),
                   ),
                   child: const Text(
                     'Edit',
@@ -72,10 +74,14 @@ class _ShippingAddressStateItemState extends State<ShippingAddressStateItem> {
               title: const Text('Default shipping address'),
 
               value: checkValue,
-              onChanged: (newValue) {
+              onChanged: (newValue) async {
                 setState(() {
                   checkValue = newValue!;
                 });
+                final newAddress = widget.shippingAddress.copyWith(
+                  isDefault: newValue,
+                );
+                await database.saveAddress(newAddress);
               },
               activeColor: Colors.red,
               contentPadding: EdgeInsets.zero,

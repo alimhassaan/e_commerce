@@ -1,6 +1,5 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/product.dart';
-import 'package:e_commerce/models/shipping_address.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
 import 'package:e_commerce/utilities/args_model/add_shipping_address_args.dart';
 import 'package:e_commerce/views/pages/auth/landing_page.dart';

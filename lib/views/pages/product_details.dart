@@ -23,7 +23,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   String? selectedColor;
 
   Future<void> addToCart() async {
-    final database = Provider.of<Database>(context,listen: false);
+    final database = Provider.of<Database>(context, listen: false);
     try {
       await database.addToCart(
         AddToCartModel(
@@ -55,6 +55,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     return Scaffold(
       backgroundColor: Colors.grey.withValues(alpha: 0.01),
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(widget.product.title),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.share))],
       ),

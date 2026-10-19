@@ -83,6 +83,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           shippingAddress != null
               ? 'Edit Shipping Address'

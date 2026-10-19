@@ -20,7 +20,9 @@ class _ShippingAddressPageState extends State<ShippingAddressPage> {
     final database = Provider.of<Database>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           'Shipping Address',
           style: Theme.of(
@@ -59,7 +61,6 @@ class _ShippingAddressPageState extends State<ShippingAddressPage> {
         onPressed: () => context.pushNamed(
           AppRoutes.addShippingAddressRoute,
           arguments: AddShippingAddressArgs(database: database),
-          
         ),
       ),
     );
