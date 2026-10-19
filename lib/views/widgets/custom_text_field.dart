@@ -15,7 +15,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixIcon,
     this.onChanged,
     this.fillColor,
-    this.filled,
+    this.filled, this.initialValue,
   });
   final TextEditingController? controller;
   final String labelText;
@@ -28,6 +28,7 @@ class CustomTextField extends StatefulWidget {
   final void Function(String)? onChanged;
   final Color? fillColor;
   final bool? filled;
+  final String?initialValue;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -48,6 +49,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         fillColor: widget.fillColor,
         filled: widget.filled,
       ),
+      initialValue: widget.initialValue,
       validator: widget.validator,
       onChanged: widget.onChanged,
     );

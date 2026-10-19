@@ -10,7 +10,8 @@ import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
 class AddShippingAddressPage extends StatefulWidget {
-  const AddShippingAddressPage({super.key});
+  final ShippingAddress? shippingAddress;
+  const AddShippingAddressPage({super.key, this.shippingAddress});
 
   @override
   State<AddShippingAddressPage> createState() => _AddShippingAddressPageState();
@@ -25,9 +26,25 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
   final TextEditingController _zipController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
+  ShippingAddress? shippingAddress;
+  @override
+  void initState() {
+    super.initState();
+    shippingAddress = widget.shippingAddress;
+    if (shippingAddress != null) {
+      _nameController.text = shippingAddress!.fullName;
+      _addressController.text = shippingAddress!.address;
+      _cityController.text = shippingAddress!.city;
+      _zipController.text = shippingAddress!.zipCode;
+      _stateController.text = shippingAddress!.state;
+      _countryController.text = shippingAddress!.country;
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
+    _nameController.dispose();
     _addressController.dispose();
     _cityController.dispose();
     _zipController.dispose();
@@ -39,7 +56,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
     try {
       if (_formKey.currentState!.validate()) {
         final address = ShippingAddress(
-          id: documentIdFromLocalDatabase(),
+          id:shippingAddress != null ? shippingAddress!.id: documentIdFromLocalDatabase(),
           fullName: _nameController.text.trim(),
           country: _countryController.text.trim(),
           address: _addressController.text.trim(),
@@ -67,7 +84,9 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          'Add Shipping Address',
+          shippingAddress != null
+              ? 'Edit Shipping Address'
+              : 'Add Shipping Address',
           style: Theme.of(
             context,
           ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
@@ -87,6 +106,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
                   hintText: 'Enter Your Name',
                   fillColor: Colors.white,
                   filled: true,
+
                   textInputAction: TextInputAction.next,
                   validator: (value) =>
                       value!.isNotEmpty ? null : 'Please enter your name',
@@ -108,6 +128,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
                   controller: _cityController,
                   labelText: 'City',
                   hintText: 'Enter Your City',
+
                   fillColor: Colors.white,
                   filled: true,
                   textInputAction: TextInputAction.next,
@@ -121,6 +142,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
                   labelText: 'State/Province',
                   hintText: 'Enter Your state',
                   fillColor: Colors.white,
+
                   filled: true,
                   textInputAction: TextInputAction.next,
                   validator: (value) =>
@@ -133,6 +155,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
                   labelText: 'Zip Code',
                   hintText: 'Enter zip code',
                   fillColor: Colors.white,
+
                   filled: true,
                   textInputAction: TextInputAction.next,
                   validator: (value) =>
@@ -145,6 +168,7 @@ class _AddShippingAddressPageState extends State<AddShippingAddressPage> {
                   labelText: 'Country',
                   hintText: 'Enter Country',
                   fillColor: Colors.white,
+
                   filled: true,
                   textInputAction: TextInputAction.next,
                   validator: (value) =>

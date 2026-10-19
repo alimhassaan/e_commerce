@@ -1,6 +1,8 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/product.dart';
+import 'package:e_commerce/models/shipping_address.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
+import 'package:e_commerce/utilities/args_model/add_shipping_address_args.dart';
 import 'package:e_commerce/views/pages/auth/landing_page.dart';
 import 'package:e_commerce/views/pages/bottom_navbar.dart';
 import 'package:e_commerce/views/pages/auth/login_page.dart';
@@ -29,11 +31,13 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
     case AppRoutes.landingPageRoute:
       return CupertinoPageRoute(builder: (_) => const LandingPage());
     case AppRoutes.addShippingAddressRoute:
-      final database = settings.arguments as Database;
+      final args = settings.arguments as AddShippingAddressArgs;
+      final database = args.database;
+      final shippingAddress = args.shippingAddress;
       return CupertinoPageRoute(
         builder: (_) => Provider<Database>.value(
           value: database,
-          child: const AddShippingAddressPage(),
+          child: AddShippingAddressPage(shippingAddress: shippingAddress),
         ),
       );
     case AppRoutes.shippingAddressRoute:
