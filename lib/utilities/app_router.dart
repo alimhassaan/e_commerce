@@ -8,8 +8,10 @@ import 'package:e_commerce/views/pages/auth/login_page.dart';
 import 'package:e_commerce/views/pages/auth/signup_page.dart';
 import 'package:e_commerce/views/pages/checkout/add_shipping_address_page.dart';
 import 'package:e_commerce/views/pages/checkout/checkout_page.dart';
+import 'package:e_commerce/views/pages/checkout/payment_methods.dart';
 import 'package:e_commerce/views/pages/checkout/shipping_address_page.dart';
 import 'package:e_commerce/views/pages/product_details.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +22,21 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
     case AppRoutes.loginPageRoute:
       return CupertinoPageRoute(builder: (_) => const LoginPage());
     case AppRoutes.bottomNavBar:
-      final database = settings.arguments as Database;
+      final argument = settings.arguments;
+      if (argument != null && argument is! Database) {
+        throw ArgumentError.value(
+          argument,
+          'settings.arguments',
+          'Expected a Database instance.',
+        );
+      }
+      final user = FirebaseAuth.instance.currentUser;
+      final database =
+          argument as Database? ??
+          (user == null ? null : FirestoreDatabase(user.uid));
+      if (database == null) {
+        return CupertinoPageRoute(builder: (_) => const LandingPage());
+      }
       return CupertinoPageRoute(
         builder: (_) => Provider<Database>.value(
           value: database,
@@ -67,6 +83,8 @@ Route<dynamic>? generateRoute(RouteSettings settings) {
           );
         },
       );
+    case AppRoutes.paymentMethodsRoute:
+      return CupertinoPageRoute(builder: (_) => const PaymentMethodsPage());
 
     default:
       return null;

@@ -2,6 +2,7 @@ import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/delivery_method.dart';
 import 'package:e_commerce/models/shipping_address.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
+import 'package:e_commerce/utilities/args_model/add_shipping_address_args.dart';
 import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:e_commerce/views/widgets/checkout/checkout_order_details.dart';
 import 'package:e_commerce/views/widgets/checkout/delivery_method_item.dart';
@@ -56,7 +57,9 @@ class CheckoutPage extends StatelessWidget {
                             InkWell(
                               onTap: () => context.pushNamed(
                                 AppRoutes.addShippingAddressRoute,
-                                arguments: database,
+                                arguments: AddShippingAddressArgs(
+                                  database: database,
+                                ),
                               ),
 
                               child: Text(
@@ -90,7 +93,9 @@ class CheckoutPage extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      context.pushNamed(AppRoutes.paymentMethodsRoute);
+                    },
                     child: const Text(
                       'Change',
                       style: TextStyle(color: Colors.redAccent),
