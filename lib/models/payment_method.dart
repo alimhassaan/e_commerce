@@ -1,0 +1,45 @@
+import 'dart:convert';
+
+class PaymentMethod {
+  final String id;
+  final String name;
+  final String cardNumber;
+  final String expiryDate;
+  final String cvv;
+  final bool isPreferred;
+
+  PaymentMethod({
+    required this.id,
+    required this.name,
+    required this.cardNumber,
+    required this.expiryDate,
+    required this.cvv,
+    this.isPreferred = false,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'cardNumber': cardNumber,
+      'expiryDate': expiryDate,
+      'cvv': cvv,
+      'isPreferred': isPreferred,
+    };
+  }
+
+  factory PaymentMethod.fromMap(Map<String, dynamic> map) {
+    return PaymentMethod(
+      id: map['id'] ?? '',
+      name: map['name'] ?? '',
+      cardNumber: map['cardNumber'] ?? '',
+      expiryDate: map['expiryDate'] ?? '',
+      cvv: map['cvv'] ?? '',
+      isPreferred: map['isPreferred'] ?? false,
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory PaymentMethod.fromJson(String source) => PaymentMethod.fromMap(json.decode(source));
+}

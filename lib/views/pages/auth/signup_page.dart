@@ -4,6 +4,7 @@ import 'package:e_commerce/controllers/auth_controller.dart';
 import 'package:e_commerce/services/auth.dart';
 import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
+import 'package:e_commerce/views/pages/auth/signin_with_google.dart';
 import 'package:e_commerce/views/widgets/custom_text_field.dart';
 import 'package:e_commerce/views/widgets/login_with.dart';
 import 'package:e_commerce/views/widgets/main_buttom.dart';
@@ -156,7 +157,12 @@ class _SignupPageState extends State<SignupPage> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            LoginWith(photo: 'assets/images/google.png'),
+                            InkWell(
+                              onTap: () => _submitGoogleSignIn(context),
+                              child: LoginWith(
+                                photo: 'assets/images/google.png',
+                              ),
+                            ),
                             const Gap(16),
                             LoginWith(photo: 'assets/images/facebook.png'),
                             const Gap(16),
@@ -187,6 +193,21 @@ Future<void> _submit(AuthController model, BuildContext context) async {
       context: context,
       error: e,
       title: 'Sign Up Failed',
+    );
+  }
+}
+
+Future<void> _submitGoogleSignIn(BuildContext context) async {
+  try {
+    final userCredential = await signInWithGoogle();
+    if (userCredential == null || !context.mounted) return;
+    context.pushNamed(AppRoutes.bottomNavBar);
+  } catch (e) {
+    if (!context.mounted) return;
+    MainDialog.showCustomDialog(
+      context: context,
+      error: e,
+      title: 'Google Sign Up Failed',
     );
   }
 }

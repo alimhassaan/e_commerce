@@ -6,6 +6,7 @@ import 'package:e_commerce/views/widgets/custom_text_field.dart';
 import 'package:e_commerce/views/widgets/login_with.dart';
 import 'package:e_commerce/views/widgets/main_buttom.dart';
 import 'package:e_commerce/views/widgets/main_dialog.dart';
+import 'package:e_commerce/views/pages/auth/signin_with_google.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
@@ -151,7 +152,12 @@ class _LoginPageState extends State<LoginPage> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          LoginWith(photo: 'assets/images/google.png'),
+                          InkWell(
+                            onTap: () => _submitGoogleSignIn(context),
+                            child: LoginWith(
+                              photo: 'assets/images/google.png',
+                            ),
+                          ),
                           const Gap(16),
                           LoginWith(photo: 'assets/images/facebook.png'),
                           const Gap(16),
@@ -181,6 +187,21 @@ Future<void> _submit(AuthController model, BuildContext context) async {
       context: context,
       error: e,
       title: 'Error!',
+    );
+  }
+}
+
+Future<void> _submitGoogleSignIn(BuildContext context) async {
+  try {
+    final userCredential = await signInWithGoogle();
+    if (userCredential == null || !context.mounted) return;
+    context.pushNamed(AppRoutes.bottomNavBar);
+  } catch (e) {
+    if (!context.mounted) return;
+    MainDialog.showCustomDialog(
+      context: context,
+      error: e,
+      title: 'Google Login Failed',
     );
   }
 }

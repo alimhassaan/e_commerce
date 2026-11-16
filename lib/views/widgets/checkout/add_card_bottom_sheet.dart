@@ -1,13 +1,18 @@
+import 'package:e_commerce/controllers/Checkout/checkout_cubit.dart';
+import 'package:e_commerce/models/payment_method.dart';
 import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:e_commerce/views/widgets/checkout/card_month_input_formatter.dart';
 import 'package:e_commerce/views/widgets/checkout/card_number_input_formatter.dart';
 import 'package:e_commerce/views/widgets/main_buttom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
 class AddCardBottomSheet extends StatefulWidget {
-  const AddCardBottomSheet({super.key});
+  const AddCardBottomSheet({super.key, this.paymentMethod});
+
+  final PaymentMethod? paymentMethod;
 
   @override
   State<AddCardBottomSheet> createState() => _AddCardBottomSheetState();
@@ -25,11 +30,20 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
   @override
   void initState() {
     super.initState();
+    isDefault = widget.paymentMethod?.isPreferred ?? false;
     _formKey = GlobalKey<FormState>();
     _nameController = TextEditingController();
     _cardNumberController = TextEditingController();
     _expiryDateController = TextEditingController();
     _cvvController = TextEditingController();
+
+    final paymentMethod = widget.paymentMethod;
+    if (paymentMethod != null) {
+      _nameController.text = paymentMethod.name;
+      _cardNumberController.text = paymentMethod.cardNumber;
+      _expiryDateController.text = paymentMethod.expiryDate;
+      _cvvController.text = paymentMethod.cvv;
+    }
   }
 
   @override
@@ -45,6 +59,7 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
     final textTheme = Theme.of(context).textTheme;
+    final checkoutCubit = BlocProvider.of<CheckoutCubit>(context);
 
     return Container(
       decoration: const BoxDecoration(
@@ -80,7 +95,7 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
 
                 // 2. Title
                 Text(
-                  'Add new card',
+                  widget.paymentMethod == null ? 'Add new card' : 'Edit card',
                   textAlign: TextAlign.center,
                   style: textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.bold,
@@ -136,10 +151,12 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
                       return 'Please enter card number';
                     }
                     final RegExp cardNumberRegExp = RegExp(r'^\d{16}$');
-                    if (!cardNumberRegExp.hasMatch(value!)) {
+                    if (!cardNumberRegExp.hasMatch(
+                      value!.trim().replaceAll(' ', ''),
+                    )) {
                       return 'Card number must be numeric';
                     }
-                    if (value.length != 16) {
+                    if (value.length != 19) {
                       return 'Card number must be 16 digits';
                     }
 
@@ -252,11 +269,51 @@ class _AddCardBottomSheetState extends State<AddCardBottomSheet> {
                 ),
                 const Gap(24),
 
-                MainButton(
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {}
+                BlocConsumer<CheckoutCubit, CheckoutState>(
+                  bloc: checkoutCubit,
+                  listenWhen: (previous, current) =>
+                      current is CardsAdded || current is CardsAddingFailed,
+                  listener: (context, state) {
+                    if (state is CardsAdded) {
+                      context.pop();
+                    } else if (state is CardsAddingFailed) {
+                      ScaffoldMessenger.of(
+                        context,
+                      ).showSnackBar(SnackBar(content: Text(state.error)));
+                    }
                   },
-                  text: 'ADD CARD',
+                  buildWhen: (previous, current) =>
+                      current is AddingCards ||
+                      current is CardsAdded ||
+                      current is CardsAddingFailed,
+                  builder: (context, state) {
+                    if (state is AddingCards) {
+                      return MainButton(
+                        onTap: null,
+                        child: const CircularProgressIndicator.adaptive(),
+                      );
+                    }
+                    return MainButton(
+                      onTap: () async {
+                        if (_formKey.currentState!.validate()) {
+                          final paymentMethod = PaymentMethod(
+                            id:
+                                widget.paymentMethod?.id ??
+                                DateTime.now().toIso8601String(),
+                            name: _nameController.text,
+                            cardNumber: _cardNumberController.text,
+                            expiryDate: _expiryDateController.text,
+                            cvv: _cvvController.text,
+                            isPreferred: isDefault,
+                          );
+                          await checkoutCubit.addCard(paymentMethod);
+                        }
+                      },
+                      text: widget.paymentMethod == null
+                          ? 'ADD CARD'
+                          : 'SAVE CHANGES',
+                    );
+                  },
                 ),
               ],
             ),

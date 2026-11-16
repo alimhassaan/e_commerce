@@ -7,6 +7,9 @@ class ApiPath {
   static String myProductsCart(String uid) => 'users/$uid/cart/';
   static String userShippingAddress(String uid) =>
       'users/$uid/shippingAddresses/';
-  static String newAddress(String uid,String addressId) =>
+  static String newAddress(String uid, String addressId) =>
       'users/$uid/shippingAddresses/$addressId';
+  static String addCard(String uid, String cardId) =>
+      'users/$uid/cards/$cardId';
+  static String cards(String uid) => 'users/$uid/cards/';
 }
