@@ -1,7 +1,9 @@
 import 'package:e_commerce/controllers/database_controller.dart';
+import 'package:e_commerce/controllers/Checkout/checkout_cubit.dart';
 import 'package:e_commerce/models/delivery_method.dart';
 import 'package:e_commerce/models/shipping_address.dart';
 import 'package:e_commerce/utilities/app_routes.dart';
+import 'package:e_commerce/utilities/args_model/add_shipping_address_args.dart';
 import 'package:e_commerce/utilities/context_extension.dart';
 import 'package:e_commerce/views/widgets/checkout/checkout_order_details.dart';
 import 'package:e_commerce/views/widgets/checkout/delivery_method_item.dart';
@@ -9,6 +11,7 @@ import 'package:e_commerce/views/widgets/checkout/payment_component.dart';
 import 'package:e_commerce/views/widgets/checkout/shipping_address_component.dart';
 import 'package:e_commerce/views/widgets/main_buttom.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 
@@ -16,10 +19,21 @@ class CheckoutPage extends StatelessWidget {
   const CheckoutPage({super.key});
 
   @override
+  Widget build(BuildContext context) => BlocProvider(
+    create: (_) => CheckoutCubit()..fetchCards(),
+    child: const _CheckoutContent(),
+  );
+}
+
+class _CheckoutContent extends StatelessWidget {
+  const _CheckoutContent();
+
+  @override
   Widget build(BuildContext context) {
     final database = Provider.of<Database>(context);
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           'Checkout',
           style: Theme.of(
@@ -55,7 +69,9 @@ class CheckoutPage extends StatelessWidget {
                             InkWell(
                               onTap: () => context.pushNamed(
                                 AppRoutes.addShippingAddressRoute,
-                                arguments: database,
+                                arguments: AddShippingAddressArgs(
+                                  database: database,
+                                ),
                               ),
 
                               child: Text(
@@ -89,7 +105,14 @@ class CheckoutPage extends StatelessWidget {
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      await context.pushNamed(
+                        AppRoutes.paymentMethodsRoute,
+                        rootNavigator: true,
+                      );
+                      if (!context.mounted) return;
+                      await context.read<CheckoutCubit>().fetchCards();
+                    },
                     child: const Text(
                       'Change',
                       style: TextStyle(color: Colors.redAccent),

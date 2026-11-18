@@ -1,6 +1,9 @@
 import 'package:e_commerce/controllers/database_controller.dart';
 import 'package:e_commerce/models/shipping_address.dart';
-import 'package:e_commerce/views/widgets/checkout/shipping_address_component.dart';
+import 'package:e_commerce/utilities/app_routes.dart';
+import 'package:e_commerce/utilities/args_model/add_shipping_address_args.dart';
+import 'package:e_commerce/utilities/context_extension.dart';
+import 'package:e_commerce/views/widgets/checkout/shipping_address_state_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +20,9 @@ class _ShippingAddressPageState extends State<ShippingAddressPage> {
     final database = Provider.of<Database>(context);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Text(
           'Shipping Address',
           style: Theme.of(
@@ -37,7 +42,7 @@ class _ShippingAddressPageState extends State<ShippingAddressPage> {
                 return Column(
                   children: shippingAddress!
                       .map(
-                        (shippingAddress) => ShippingAddressComponent(
+                        (shippingAddress) => ShippingAddressStateItem(
                           shippingAddress: shippingAddress,
                         ),
                       )
@@ -47,6 +52,15 @@ class _ShippingAddressPageState extends State<ShippingAddressPage> {
               return const Center(child: CircularProgressIndicator.adaptive());
             },
           ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
+
+        child: const Icon(Icons.add, color: Colors.white),
+        onPressed: () => context.pushNamed(
+          AppRoutes.addShippingAddressRoute,
+          arguments: AddShippingAddressArgs(database: database),
         ),
       ),
     );
