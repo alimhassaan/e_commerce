@@ -35,12 +35,21 @@ class HomePage extends StatelessWidget {
                     stream: database.salesProductsStream(),
 
                     builder: (context, asyncSnapshot) {
+                      if (asyncSnapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            'Failed to load sale products: '
+                            '${asyncSnapshot.error}',
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
                       if (asyncSnapshot.connectionState ==
                           ConnectionState.active) {
                         final products = asyncSnapshot.data;
                         if (products.isNullOrEmpty()) {
                           return const Center(
-                            child: Text('No Data Available!'),
+                            child: Text('No discounted products available.'),
                           );
                         }
                         return ListView.builder(
@@ -68,12 +77,20 @@ class HomePage extends StatelessWidget {
                   child: StreamBuilder<List<Product>>(
                     stream: database.newProductsStream(),
                     builder: (context, asyncSnapshot) {
+                      if (asyncSnapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            'Failed to load products: ${asyncSnapshot.error}',
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
                       if (asyncSnapshot.connectionState ==
                           ConnectionState.active) {
                         final products = asyncSnapshot.data;
                         if (products.isNullOrEmpty()) {
                           return const Center(
-                            child: Text('No Data Available!'),
+                            child: Text('No products available.'),
                           );
                         }
                         return ListView.builder(
